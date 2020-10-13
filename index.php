@@ -1,13 +1,14 @@
 <?php $link = mysqli_connect('localhost', 'root', '','greenline');//подключение к БД
 if(!$link){
     echo  "Прoизошла ошибка" . PHP_EOL;
-    echo 'Код ошибки'. mysqli_connect_errno().PHP_EOL;
-    echo 'Текст ошибки'. mysqli_connect_error();
+    echo 'Код ошибки'. mysqli_connect_errno().PHP_EOL;//Возвращает численный код ошибки
+    echo 'Текст ошибки'. mysqli_connect_error();// Возвращает строку ошибки последней операции с MySQL.
     die();//убивается
 }
 mysqli_set_charset($link, "utf8");
-$res= mysqli_query($link, "SELECT * FROM `category` ORDER BY `title` ASC");
+$res= mysqli_query($link, "SELECT * FROM `category` ORDER BY `title` ASC");//ORDER BY отсортирует по алфавиту
 $arCategory = mysqli_fetch_all($res, MYSQLI_ASSOC);
+//Получить все строки и вернуть набор результатов в виде ассоциативного массива
 
 /*echo '<pre>';
 print_r ($arCategory);
