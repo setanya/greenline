@@ -6,4 +6,12 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/db.php';//подключаем �
 require_once $_SERVER['DOCUMENT_ROOT'].'/core/function.php';//подключаем файл с функциями
 
 
+
+//подключение категорий 
+    $res= mysqli_query($link, "SELECT * FROM `category` ORDER BY `title` ASC");//получаем и сортируем  категории из базы
+    $arCategory = mysqli_fetch_all($res, MYSQLI_ASSOC);//выбор из базы `category`
+    //Получить все строки и вернуть набор результатов в виде ассоциативного массива
+
+
+
 ?>
