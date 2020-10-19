@@ -1,6 +1,7 @@
 <?php//$arNews - список новостей взятый из базы 
 //$res = mysqli_query($link, "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS news_cat  FROM `news`n JOIN `category`c ON c.`id`= n.`category_id`");
-//$arNews =  mysqli_fetch_all($res, MYSQLI_ASSOC);  ?>
+//$arNews =  mysqli_fetch_all($res, MYSQLI_ASSOC); ?>
+
 <?if(!empty($arNews)):?>
     <?foreach($arNews as $news):?>
         <div class="article">

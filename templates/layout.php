@@ -18,6 +18,7 @@
           <li><a href="support.php">Поддержка</a></li>
           <li><a href="about.php">О нас</a></li>
           <li><a href="contact.php">Контакт</a></li>
+          <li><a href="admin.php">Администратор</a></li>
         </ul>
       </div>
       <div class="logo">
@@ -29,7 +30,7 @@
   <div class="content">
     <div class="content_resize">
       <div class="mainbar">
-       <?=$content;?>
+        <?=$content;?>
 
 
       </div>
