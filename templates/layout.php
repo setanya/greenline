@@ -48,7 +48,7 @@
           <div class="clr"></div>
           <ul class="sb_menu">
           <?foreach($arCategory as $category):?>
-            <li><a href="#"><?=$category['title'];?></a></li>
+            <li><a href="?<?=setPageParam('category',$category['id']);?>"> <?=$category['title'];?></a></li><?//category- параметр для фильтрции?>
           <?endforeach;?>
           </ul>
         </div>

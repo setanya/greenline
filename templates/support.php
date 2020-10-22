@@ -15,7 +15,7 @@
         сайта. За стоимостью технической поддержки сайта скрывается комплекс услуг, которые решают множество задач..
       </p>
     <!--  блок с выводом новостей страниц --> 
-      <?if(!empty($arsupports)):?><?//если не пустая переменная смассивом $page_content = renderTemplate("support",['arsupports'=>$arSupport]);=>$arsupports?>
+      <?if(!empty($arsupports)):?><?//если не пустая переменная с массивом $page_content = renderTemplate("support",['arsupports'=>$arSupport]);=>$arsupports?>
         <ul>
           <?foreach($arsupports as $supp)://цикл с новостями?>
             <li class="block-question">

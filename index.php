@@ -19,20 +19,44 @@
     }
     // с какой новости начинать 
     $offset = $page * $num - $num;//$page=0 * $num = 2 -$num = 2
-    
-    $arPage = range(1, $totalStr);//массив от 1 до КОЛИЧЕСТВО СТРАНИЦ ($totalStr)
 
-    //подключение к базе данных для main.php главной страницы(выборка id, title, preview_text, date, image )
-    $res = mysqli_query($link, "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` ORDER BY `id` LIMIT $offset, $num");  
+/**фильтрация  по категориям */
+    $where = '';//есл пусто  то небудет работать условие
+    if(isset($_GET['category'])){
+        //pr($_GET['category']);//получаем цифру категории
+        $category = intval($_GET['category']);//обязательно проверяем что число
+        //pr($category);
+        if($category > 0){//если число категории больше 0
+            $where = 'WHERE `category_id`= '.$category; //тогда переменная = `category_id`= № $_GET['category']
+        }
+    }
+    
+
+    //подключение к базе данных для main.php главной страницы(выборка id, title, preview_text, date, image )                                                                                   //$where = 'WHERE `category_id`= '.$category;
+    $res = mysqli_query($link, "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` $where ORDER BY `id` LIMIT $offset, $num");  
     $arNews = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    
+    $arPage = range(1, $totalStr);//массив от 1 до КОЛИЧЕСТВО СТРАНИЦ ($totalStr)[1,2,3]
+    //получить  предыдущие стр
+    $prevPage = '';//если предыдущая стр 
+    if($page > 1){
+        $prevPage  = $page - 1;
+    }
 
+    $nextPage = '';
+    if($page < $totalStr){
+        $nextPage = $page + 1;
+    }
+
+    $is_nav = ($totalStr >1) ? true : false; //если количество стр больше 1  то true тогда показывать иначе false
 
     /////////////////////////////////////////////////////////////////////////////////
     $pageNavigation = renderTemplate("navigation", [//получаем html шаблон navigation.php 
-                                                'arPage'=>$arPage,//передаем массив со страницами
+                                                //'arPage'=>$arPage,//передаем массив со страницами
                                                 'totalPage' => $totalStr,//КОЛИЧЕСТВО СТРАНИЦ ($totalStr)
                                                 'curPage' =>$page,//передаем текущюю страницу
+                                                'nextPage' => $nextPage,// передаем№  следующие  стр
+                                                'prevPage' => $prevPage,//передаем№ предыдущие стр
+                                                'show' => $is_nav,// параметр для показа навигации
     ]); 
                                 //function renderTemplate($name, $data=[])
                                 //на страницу $name=main.php , $data=['arNew'=>$arNews,]
