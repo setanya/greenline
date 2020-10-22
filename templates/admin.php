@@ -18,8 +18,8 @@ if (isset($_POST['sub']) && $_POST['sub'] != ''){//если переменная
 	}
 	//КОД для проверки совпадения логина и пароля если совпадает тогда переход на страницу админка ------------------
 	//  isset-если существует                    trim - удаляем пробелы
-	if(isset($_POST['login'], $_POST['password']) && trim($_POST['login'] === 'loginAdmin'
-    && $_POST['password'] ==='passAdmin' && ($_POST['password']) === ($_POST['dbl_password']))){
+	if(isset($_POST['login'], $_POST['password']) && (trim($_POST['login'] === 'loginAdmin')
+    && (trim($_POST['password'] ==='passAdmin')) && ($_POST['password']) === ($_POST['dbl_password']))){
 			header('Location:adminka.php');// перенаправление на нужную страницу	
 		}else{
 			echo '<p style="color:red;"> Неверный логин или пароль </p>';//вывести и ничего не делать
