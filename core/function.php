@@ -27,13 +27,21 @@ function  setPageParam($param, $value){
     $qParam = $_SERVER['QUERY_STRING'];//получаем строку с параметрами purs URL
     parse_str($qParam, $arr);//разбирает $qParam строку в массив $arr Генерируем массив из строки
     if(!empty($param) && !empty($value)){//если передан параметр проверяем ключ  значение
-        if(array_key_exists($param, $arr)){//если есть ключ в массиве
-            $arr[$param] = $value;//меняю значение в полученном массиве
-        }else{
+
             $arr[$param] = $value;//дописываем в строку
-        }
     }
     return http_build_query($arr);//генерирует строку с гет параметрами
 }
+///// if(!empty($param) && !empty($value)){//если передан параметр проверяем ключ  значение
+///      if(array_key_exists($param, $arr)){// проверяет если есть ключ в массиве
+//            $arr[$param] = $value;//меняю значение в полученном массиве
+//        }else{
+//            $arr[$param] = $value;//дописываем в строку
+//        }
+//}
+
+
+
+
 
 ?>

@@ -14,11 +14,11 @@
     <div class="header_resize">
       <div class="menu_nav">
         <ul>
-          <li class="active"><a href="/">Главная </a></li>
-          <li><a href="support.php">Поддержка</a></li>
-          <li><a href="about.php">О нас</a></li>
-          <li><a href="contact.php">Контакт</a></li>
-          <li><a href="admin.php">Администратор</a></li>
+          <li <?if($menuActive == 'indexStr'):?>class = "active"<?endif;?>><a href="/">Главная </a></li>
+          <li <?if($menuActive == 'support'):?>class = "active"<?endif;?>><a href="support.php">Поддержка</a></li>
+          <li <?if($menuActive == 'about'):?>class = "active"<?endif;?>><a href="about.php">О нас</a></li>
+          <li <?if($menuActive == 'contact'):?>class = "active"<?endif;?>><a href="contact.php">Контакт</a></li>
+          <li <?if($menuActive == 'admin'):?>class = "active"<?endif;?>><a href="admin.php">Администратор</a></li>
         </ul>
       </div>
       <div class="logo">
@@ -31,7 +31,6 @@
     <div class="content_resize">
       <div class="mainbar">
         <?=$content;?>
-
 
       </div>
       <div class="sidebar">
@@ -48,7 +47,7 @@
           <div class="clr"></div>
           <ul class="sb_menu">
           <?foreach($arCategory as $category):?>
-            <li><a href="?<?=setPageParam('category',$category['id']);?>"> <?=$category['title'];?></a></li><?//category- параметр для фильтрции?>
+            <li><a href="?category=<?=$category['id']?><?//=setPageParam('category',$category['id']);?>"> <?=$category['title'];?></a></li><?//category- параметр для фильтрции?>
           <?endforeach;?>
           </ul>
         </div>
@@ -82,7 +81,7 @@
         <h2><span>Контакты</span></h2>
         <p>Мы будем рады ответить на любые вопросы.</p>
         <p><a href="#"><?=SITE_EMAIL;?></a></p><?//вывели глобальную переменную с мылом?>
-        <p><?=SITE_TELEPHONE1;?><br /><?//вывели глобальную переменную с телефоном?>
+        <p><?=SITE_TELEPHONE_1;?><br /><?//вывели глобальную переменную с телефоном?>
         <?=SITE_TELEPHONE2;?></p>
         <p><?=SITE_ADDRESS;?></p><?//вывели глобальную переменную с адресом //глобальные переменные в конфиге лежат?>
       </div>

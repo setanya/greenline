@@ -9,7 +9,8 @@ $page_content = renderTemplate("admin",[]);//$name = $_SERVER['DOCUMENT_ROOT'] .
                             //передаем подключение куска страницы  support.php и массив из базы                                           
 $rezult = renderTemplate('layout', [
                             'content' => $page_content,//about.php
-                            'title' => $title,//
-                            'arCategory' => $arCategory,
+                            'title' => $title,//название страницы
+                            'arCategory' => $arCategory,//передали категории
+                            'menuActive' => 'admin',//для активности кнопки
                         ]);
 echo $rezult;//для вывода страницы

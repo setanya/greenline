@@ -44,5 +44,6 @@ $rezult = renderTemplate('layout', [
                             'content' => $page_content,//about.php
                             'title' => $title,//
                             'arCategory' => $arCategory,
+                            'menuActive' =>'support',//для активности кнопки названия
                         ]);
 echo $rezult;//для вывода страницы

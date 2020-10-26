@@ -9,6 +9,7 @@ $rezult = renderTemplate('layout', [
                             'content' => $page_content,//about.php
                             'title' => $title,//
                             'arCategory' => $arCategory,
+                            'menuActive'=> 'about',
                         ]);
 echo $rezult;//для вывода страницы
 

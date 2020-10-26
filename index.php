@@ -4,10 +4,20 @@
     $title = 'Главная страница'; // передаем новое значение вкладки 
     //
     $num = 3;// сколько выводить новостей на страницы
+    /**фильтрация новостей по категориям */
+    $where = '';//есл пусто  то небудет работать условие
+    if(isset($_GET['category'])){
+        //pr($_GET['category']);//получаем цифру категории
+        $category = intval($_GET['category']);//обязательно проверяем что число
+        //pr($category);
+        if($category > 0){//если число категории больше 0 новости опред. категории
+            $where = " WHERE `category_id`= ". $category; //тогда переменная = `category_id`= № $_GET['category']
+        }
+    } //pr($where);
 
-    $resTotal =mysqli_query($link,"SELECT * FROM `news`");//вывести всё из таблицы `news`
-    $total = mysqli_num_rows($resTotal);//mysqli_num_rows кол-во записей в запросе bd
-
+    $resTotal =mysqli_query($link,"SELECT * FROM `news`  $where");//вывести всё из таблицы `news`где  переменная $where = `category_id`= № $_GET['category']
+    $total = mysqli_num_rows($resTotal);//mysqli_num_rows кол-во записей в запросе bd категорий
+     //посчитает кол-во страниц нужной категории
     $totalStr= ceil($total / $num);//КОЛИЧЕСТВО СТРАНИЦ ceil-округление в большую сторону кол-во стр / на кол-во записей 
     
     $page = intval($_GET['page']);// Получение номера страницы из адресной строки, intval-приводит к числу
@@ -20,16 +30,8 @@
     // с какой новости начинать 
     $offset = $page * $num - $num;//$page=0 * $num = 2 -$num = 2
 
-/**фильтрация новостей по категориям */
-    $where = '';//есл пусто  то небудет работать условие
-    if(isset($_GET['category'])){
-        //pr($_GET['category']);//получаем цифру категории
-        $category = intval($_GET['category']);//обязательно проверяем что число
-        pr($category);
-        if($category > 0){//если число категории больше 0
-            $where = " WHERE `category_id`= ". $category; //тогда переменная = `category_id`= № $_GET['category']
-        }
-    } pr($where);
+
+
     //подключение к базе данных для main.php главной страницы(выборка id, title, preview_text, date, image )                                                                                   //$where = 'WHERE `category_id`= '.$category;
     $res = mysqli_query($link, "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` $where ORDER BY n.`id` LIMIT $offset, $num");  
     $arNews = mysqli_fetch_all($res, MYSQLI_ASSOC);
@@ -78,7 +80,8 @@
                             'content' => $page_content,// передаем html шаблон main.php <?=$content;>передаем кусок вставляемого контента main.php и выборку новостей
                             //в<div class="mainbar"> <?=$content; передаем $page_content = renderTemplate("main");
                             'title' => 'Главная страница',//$title = 'Главная страница'; ЗАГОЛОВОК СТРАНИЦЫ
-                            'arCategory' => $arCategory,////передаем массив из базы категории 
+                            'arCategory' => $arCategory,////передаем массив из базы категории
+                             'menuActive' => 'indexStr',//if($menuActive == 'indexStr'):в layout.php тогда стр сделать активной
     ]);         /*arCategory -список категорий для layout.php (init.php)*/
 
     echo $result;//Выводим на экран окончательный  вид html  страницы
