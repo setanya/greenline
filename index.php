@@ -2,16 +2,16 @@
     require_once 'core/init.php';//подключение всех нужных  файлов
     /** $link -ресурс запроса*/
     $title = 'Главная страница'; // передаем новое значение вкладки 
-    $num = 2;// сколько выводить новостей на страницы
+    //
+    $num = 3;// сколько выводить новостей на страницы
 
-    $resTotal =mysqli_query($link,"SELECT * FROM `news`");
-    $total = mysqli_num_rows($resTotal);//кол-во записей в запросе bd
+    $resTotal =mysqli_query($link,"SELECT * FROM `news`");//вывести всё из таблицы `news`
+    $total = mysqli_num_rows($resTotal);//mysqli_num_rows кол-во записей в запросе bd
 
     $totalStr= ceil($total / $num);//КОЛИЧЕСТВО СТРАНИЦ ceil-округление в большую сторону кол-во стр / на кол-во записей 
     
-
     $page = intval($_GET['page']);// Получение номера страницы из адресной строки, intval-приводит к числу
-    
+    //показывать номер страницы
     if($page <=0){//если номер стр. не существует или отрицательное
         $page = 1;//показываем  первую страницу
     }elseif($page > $totalStr){//если номер стр. больше чем их колличество 
@@ -20,34 +20,39 @@
     // с какой новости начинать 
     $offset = $page * $num - $num;//$page=0 * $num = 2 -$num = 2
 
-/**фильтрация  по категориям */
+/**фильтрация новостей по категориям */
     $where = '';//есл пусто  то небудет работать условие
     if(isset($_GET['category'])){
         //pr($_GET['category']);//получаем цифру категории
         $category = intval($_GET['category']);//обязательно проверяем что число
-        //pr($category);
+        pr($category);
         if($category > 0){//если число категории больше 0
-            $where = 'WHERE `category_id`= '.$category; //тогда переменная = `category_id`= № $_GET['category']
+            $where = " WHERE `category_id`= ". $category; //тогда переменная = `category_id`= № $_GET['category']
         }
-    }
-    
-
+    } pr($where);
     //подключение к базе данных для main.php главной страницы(выборка id, title, preview_text, date, image )                                                                                   //$where = 'WHERE `category_id`= '.$category;
-    $res = mysqli_query($link, "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` $where ORDER BY `id` LIMIT $offset, $num");  
+    $res = mysqli_query($link, "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` $where ORDER BY n.`id` LIMIT $offset, $num");  
     $arNews = mysqli_fetch_all($res, MYSQLI_ASSOC);
+   
     $arPage = range(1, $totalStr);//массив от 1 до КОЛИЧЕСТВО СТРАНИЦ ($totalStr)[1,2,3]
     //получить  предыдущие стр
-    $prevPage = '';//если предыдущая стр 
-    if($page > 1){
-        $prevPage  = $page - 1;
+    $prevPage = '';
+    if($page > 1){//если текущая стр. больше 1   
+        $prevPage  = $page - 1;//то в переменную запишется текущее число -1
     }
-
+    //получить  следующую  стр
     $nextPage = '';
-    if($page < $totalStr){
-        $nextPage = $page + 1;
+    if($page < $totalStr){////если текущая стр. меньше общего кол-ва стр
+        $nextPage = $page + 1;//то в переменную запишется текущее число + 1
     }
-
+    //да или нет показывать навигацию
     $is_nav = ($totalStr >1) ? true : false; //если количество стр больше 1  то true тогда показывать иначе false
+    // $is_nav = '';
+    // if($totalStr >1){
+    //     $is_nav = true;
+    // }else{
+    //     $is_nav = false;
+    // }
 
     /////////////////////////////////////////////////////////////////////////////////
     $pageNavigation = renderTemplate("navigation", [//получаем html шаблон navigation.php 
