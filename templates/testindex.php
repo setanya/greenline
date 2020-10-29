@@ -19,7 +19,7 @@ th, td {
       
                   <tr>
                         <th>Title</th>
-                        <th>Text</th>
+                        <th><?=getWeekday(3);?></th>
                   </tr>
                   <?if(!empty($arSUPPORT)):?>
                         <?foreach($arSUPPORT as $supp):?>
@@ -32,4 +32,4 @@ th, td {
                   <p>Сообщений  нет</p>
             <?endif;?>
 </table>
-<?pr($test);?>
+<?//pr($test);?>

@@ -74,7 +74,7 @@
 
     require_once 'core/init.php';
     $cat = $_GET['category'];// $id получаем данные из адресной строки
-    $title = 'Технологии';
+    $title = 'медицина';
 
     $stmr = mysqli_prepare($link, "SELECT * FROM `category` WHERE `title` = ?");//подготавливает запрос возвращает указатель
      //mysqli_stmt_bind_param  привязывает переменные к параметрам запроса

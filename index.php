@@ -18,6 +18,9 @@
     $resTotal =mysqli_query($link,"SELECT * FROM `news`  $where");//вывести всё из таблицы `news`где  переменная $where = `category_id`= № $_GET['category']
     $total = mysqli_num_rows($resTotal);//mysqli_num_rows кол-во записей в запросе bd категорий
      //посчитает кол-во страниц нужной категории
+
+
+
     $totalStr= ceil($total / $num);//КОЛИЧЕСТВО СТРАНИЦ ceil-округление в большую сторону кол-во стр / на кол-во записей 
     
     $page = intval($_GET['page']);// Получение номера страницы из адресной строки, intval-приводит к числу
@@ -35,7 +38,7 @@
     //подключение к базе данных для main.php главной страницы(выборка id, title, preview_text, date, image )                                                                                   //$where = 'WHERE `category_id`= '.$category;
     $res = mysqli_query($link, "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` $where ORDER BY n.`id` LIMIT $offset, $num");  
     $arNews = mysqli_fetch_all($res, MYSQLI_ASSOC);
-   
+
     $arPage = range(1, $totalStr);//массив от 1 до КОЛИЧЕСТВО СТРАНИЦ ($totalStr)[1,2,3]
     //получить  предыдущие стр
     $prevPage = '';
