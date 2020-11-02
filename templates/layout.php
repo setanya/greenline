@@ -6,6 +6,7 @@
 <link href="style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="js/radius.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
 </head>
 <body>
 <!-- START PAGE SOURCE -->
@@ -47,7 +48,7 @@
           <div class="clr"></div>
           <ul class="sb_menu">
           <?foreach($arCategory as $category):?>
-            <li><a href="?category=<?=$category['id']?><?//=setPageParam('category',$category['id']);?>"> <?=$category['title'];?></a></li><?//category- параметр для фильтрции?>
+            <li><a href="/?<?=setPageParam('category',$category['id']);?>"> <?=$category['title'];?></a></li><?//<li><a href="?category=<?=$category['id']category- параметр для фильтрции?>
           <?endforeach;?>
           </ul>
         </div>

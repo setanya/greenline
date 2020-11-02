@@ -2,17 +2,25 @@
 require_once 'core/init.php';//подключение всех нужных  файлов
 
 //echo $_GET['id'];
-$id = intval($_GET['id']);
+$id = intval($_GET['id']);//текущая новость
 $title = 'Новость';
-$query = "SELECT n.`id`, n.`title`, n.`detail_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` WHERE  n.`id`= ? LIMIT ?";
+$query = "SELECT n.`id`, n.`title`, n.`detail_text`, DATE_FORMAT (n.`date`,'%d.%m.%Y %H.%i') AS date_detail, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` WHERE  n.`id`= ? LIMIT ?";
 $res = getStmtResult($link, $query, [$id, 1]);
 $arNewsDetail = mysqli_fetch_assoc($res);//массив со всеми значениями
-pr($arNewsDetail);
+//pr($arNewsDetail);
 //die();
+//получаем  комментарии
+$resComment = getStmtResult($link, "SELECT * FROM `comments` WHERE `news_id` = ?",[$id]);//запрос
+$arComments = mysqli_fetch_all($resComment, MYSQLI_ASSOC);//получаем комментарии текущей новости
+
+$comments = renderTemplate('comments',[//получаем шаблон комментариев comments.php
+                            'arComments' =>$arComments,//передаем массив в шаблон коментария
+]);
+
 
 $page_content = renderTemplate("news_detail",[//получаем html шаблон news_detail.php
                                 'arNews'=>$arNewsDetail,//в переменную  вставляем массив с новостью из базы данных
-
+                                    'comments' => $comments,//передаем готовый html код комментариев
 ]);
 
 $result = renderTemplate('layout',[//ГЛАВНЫЙ ШАБЛОН СТРАНИЦЫ в переменную вставляем функцию шаблон и передаем ей аргумент layout.php и значения

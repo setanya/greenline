@@ -48,7 +48,7 @@ function getWeekday($a){
     return $days[$num_day];//возвращает название дня недели
 }
 // пример использования
-echo getWeekday(6);
+
 /**функция для подготовленного запрса
  * @param $link
  * @param $query
@@ -73,7 +73,7 @@ function getStmtResult($link, $query, $param = [])
         }
         $values = array_merge([$stmt, $typ],$param);//подготавливаем массив параметров для  mysqli_stmt_bind_param($stmr, "s", $title);
         $func = 'mysqli_stmt_bind_param';
-        $func(... $values);//... указывает для передачи неопределённого кол-ва аргументов
+        $func(...$values);//... указывает для передачи неопределённого кол-ва аргументов
         mysqli_stmt_execute($stmt);//выполняет подготовленный запрос
         $result = mysqli_stmt_get_result($stmt);// результат запроса  возвращает результат
         return $result;//вернуть значение

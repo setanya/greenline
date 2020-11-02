@@ -40,9 +40,11 @@
     $offset = $page * $num - $num;//$page=0 * $num = 2 -$num = 2
 
 
-
     //подключение к базе данных для main.php главной страницы(выборка id, title, preview_text, date, image )                                                                                   //$where = 'WHERE `category_id`= '.$category;
-    $query = "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` $where ORDER BY n.`id` LIMIT ?, ?";
+    $query = "SELECT n.`id`, n.`title`, n.`preview_text`, n.`image`, DATE_FORMAT (n.`date`,'%d.%m.%Y %H.%i') AS news_date, n.`comments_cnt`, c.`title` AS `news_cat` ".
+        "FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` $where ORDER BY n.`id` LIMIT ?, ?";
+
+
     //в зависимости от наличия условий подготавливаем параметры
     if($where != '' && isset($category)){
         $param = [$category, $offset, $num];
