@@ -11,17 +11,23 @@
         $category = intval($_GET['category']);//обязательно проверяем что число
         //pr($category);
         if($category > 0){//если число категории больше 0 новости опред. категории
-            $where = " WHERE `category_id`= ". $category; //тогда переменная = `category_id`= № $_GET['category']
+            $where = 'WHERE `category_id`= ?' ; //тогда переменная = `category_id`= № $_GET['category']
         }
     } //pr($where);
+//если есть условие и выбрана категория
+    if($where != ''){//
+        $resTotal = getStmtResult($link,"SELECT * FROM `news`$where", [$category]);
+    }else{//если нет параметров
+        $resTotal =getStmtResult($link,"SELECT * FROM `news`");
+    }
 
-    $resTotal =mysqli_query($link,"SELECT * FROM `news`  $where");//вывести всё из таблицы `news`где  переменная $where = `category_id`= № $_GET['category']
+    //$resTotal =mysqli_query($link,"SELECT * FROM `news`  $where");//вывести всё из таблицы `news`где  переменная $where = `category_id`= № $_GET['category']
     $total = mysqli_num_rows($resTotal);//mysqli_num_rows кол-во записей в запросе bd категорий
      //посчитает кол-во страниц нужной категории
 
 
 
-    $totalStr= ceil($total / $num);//КОЛИЧЕСТВО СТРАНИЦ ceil-округление в большую сторону кол-во стр / на кол-во записей 
+    $totalStr= ceil($total / $num);//общее КОЛИЧЕСТВО СТРАНИЦ ceil-округление в большую сторону кол-во стр / на кол-во записей 
     
     $page = intval($_GET['page']);// Получение номера страницы из адресной строки, intval-приводит к числу
     //показывать номер страницы
@@ -36,9 +42,16 @@
 
 
     //подключение к базе данных для main.php главной страницы(выборка id, title, preview_text, date, image )                                                                                   //$where = 'WHERE `category_id`= '.$category;
-    $res = mysqli_query($link, "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` $where ORDER BY n.`id` LIMIT $offset, $num");  
+    $query = "SELECT n.`id`, n.`title`, n.`preview_text`, n.`date`, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` $where ORDER BY n.`id` LIMIT ?, ?";
+    //в зависимости от наличия условий подготавливаем параметры
+    if($where != '' && isset($category)){
+        $param = [$category, $offset, $num];
+    }else{//если пустая выводим с какой новости начинать и номер стр,
+        $param = [$offset, $num];
+    }
+    $res = getStmtResult($link, $query, $param);
     $arNews = mysqli_fetch_all($res, MYSQLI_ASSOC);
-
+    
     $arPage = range(1, $totalStr);//массив от 1 до КОЛИЧЕСТВО СТРАНИЦ ($totalStr)[1,2,3]
     //получить  предыдущие стр
     $prevPage = '';
@@ -84,7 +97,7 @@
                             //в<div class="mainbar"> <?=$content; передаем $page_content = renderTemplate("main");
                             'title' => 'Главная страница',//$title = 'Главная страница'; ЗАГОЛОВОК СТРАНИЦЫ
                             'arCategory' => $arCategory,////передаем массив из базы категории
-                             'menuActive' => 'indexStr',//if($menuActive == 'indexStr'):в layout.php тогда стр сделать активной
+                            'menuActive' => 'indexStr',//if($menuActive == 'indexStr'):в layout.php тогда стр сделать активной
     ]);         /*arCategory -список категорий для layout.php (init.php)*/
 
     echo $result;//Выводим на экран окончательный  вид html  страницы

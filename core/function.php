@@ -43,14 +43,45 @@ function getWeekday($a){
     $days = array('Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота' );
     //$days    [0]=>'Воскресенье'
     // [номер дня недели: с 0 до 6]    0 - воскресенье, 6 - суббота
-    $num_day =$a;//в переменную передаем аргумент число которое станет ключом массива
+    $num_day = $a;//в переменную передаем аргумент число которое станет ключом массива
 
     return $days[$num_day];//возвращает название дня недели
-    
 }
-
 // пример использования
-echo getWeekday(6); 
+echo getWeekday(6);
+/**функция для подготовленного запрса
+ * @param $link
+ * @param $query
+ * @param array $param
+ * @return false|mysqli_result
+ */
+function getStmtResult($link, $query, $param = [])
+{
+    $stmt = mysqli_prepare($link, $query);//подготавливает запрос возвращает указатель
+    if(!empty($param)){//если пришли параметры в массиве
+        $typ = '';//создаем пер, пустую и будем дописывать аргумент с типами данных
+        foreach ($param as $item){//циклом заполняем
+            if(is_int($item)){//если число $item
+                $typ .= 'i';//.дописываем 'i' в конец строки
+            }elseif (is_string($item)){//если строка
+                $typ .= 's';//.дописываем 's' в конец строки
+            }elseif (is_double($item)){//если число  1,3
+                $typ .= 'd';//.дописываем 'd' в конец строки
+            }else{
+                $typ .= 's';//.дописываем 's' в конец строки
+            }
+        }
+        $values = array_merge([$stmt, $typ],$param);//подготавливаем массив параметров для  mysqli_stmt_bind_param($stmr, "s", $title);
+        $func = 'mysqli_stmt_bind_param';
+        $func(... $values);//... указывает для передачи неопределённого кол-ва аргументов
+        mysqli_stmt_execute($stmt);//выполняет подготовленный запрос
+        $result = mysqli_stmt_get_result($stmt);// результат запроса  возвращает результат
+        return $result;//вернуть значение
+        }else {
+        $result = mysqli_query($link, $query);
+        return $result ;
+    }
+}
 
 
 

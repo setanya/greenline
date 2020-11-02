@@ -76,13 +76,16 @@
     $cat = $_GET['category'];// $id получаем данные из адресной строки
     $title = 'медицина';
 
-    $stmr = mysqli_prepare($link, "SELECT * FROM `category` WHERE `title` = ?");//подготавливает запрос возвращает указатель
-     //mysqli_stmt_bind_param  привязывает переменные к параметрам запроса
-    mysqli_stmt_bind_param($stmr, "s", $title);
-    //mysqli_stmt_execute  выполняет подготовленный запрос
-    mysqli_stmt_execute($stmr);
-    // обработать результат запроса  возвращает результат
-        $res = mysqli_stmt_get_result($stmr);
-        while($arRes = mysqli_fetch_assoc($res)){
+//    $stmr = mysqli_prepare($link, "SELECT * FROM `category` WHERE `title` = ?");//подготавливает запрос возвращает указатель
+//     //mysqli_stmt_bind_param  привязывает переменные к параметрам запроса
+//    mysqli_stmt_bind_param($stmr, "s", $title);
+//    //mysqli_stmt_execute  выполняет подготовленный запрос
+//    mysqli_stmt_execute($stmr);
+//    // обработать результат запроса  возвращает результат
+//        $res = mysqli_stmt_get_result($stmr);
+
+$res = getStmtResult($link, "SELECT * FROM `category`");
+
+        while($arRes = mysqli_fetch_assoc($res)){//записываем переменную  построчно массивом
             pr($arRes);
-        }
+        };
