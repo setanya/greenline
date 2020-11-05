@@ -16,7 +16,7 @@
         </div>
     <?endforeach;?>
 
-    <?=$navigation;?>
+    <?=$navigation;?><?// передаем шаблон навигации?>
         
     <?else:?>
         <p> Новостей нет</p>

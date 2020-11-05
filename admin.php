@@ -5,7 +5,9 @@ $title = 'Администратор'; // передаем новое значе
 
                                     //$data=['title'=>'123']становится на странице $title='123'
 //     function renderTemplate($name, $data=['аргумент'=>$переменной])('аргумент' становится на странице $аргумент)['title'=>'123'] $title='123'
-$page_content = renderTemplate("admin",[]);//$name = $_SERVER['DOCUMENT_ROOT'] . '/templates/'.$name. '.php';/=>support.php /создаем полный путь из параметров $name
+$page_content = renderTemplate("admin",[
+
+                                            ]);//$name = $_SERVER['DOCUMENT_ROOT'] . '/templates/'.$name. '.php';/=>support.php /создаем полный путь из параметров $name
                             //передаем подключение куска страницы  support.php и массив из базы                                           
 $rezult = renderTemplate('layout', [
                             'content' => $page_content,//about.php

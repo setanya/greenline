@@ -13,13 +13,13 @@
     <div class="article">
         <h2><span>  </span> Комментарии к новости</h2>
 
-        <?=$comments?>
+        <?=$comments?><?//вставили шаблон коментариев?>
 
     </div>
     <div class="article">
         <h2><span>Оставте </span> комментарий</h2>
         <div class="clr"></div>
-        <div class="error" id="form_error"></div>
+        <div class="error" id="form_error"></div><?//создали для вывода ошибки?>
 
         <form action="" method="post" id="form">
             <input type="hidden" name="news_id"  value="<?=$arNews['id']?>" />
