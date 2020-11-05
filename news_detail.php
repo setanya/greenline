@@ -4,14 +4,20 @@ require_once 'core/init.php';//подключение всех нужных  ф�
 //echo $_GET['id'];
 $id = intval($_GET['id']);//текущая новость
 $title = 'Новость';
-$query = "SELECT n.`id`, n.`title`, n.`detail_text`, DATE_FORMAT (n.`date`,'%d.%m.%Y %H.%i') AS date_detail, n.`image`, n.`comments_cnt`, c.`title` AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` WHERE  n.`id`= ? LIMIT ?";
+$query = "SELECT n.`id`, n.`title`, n.`detail_text`, DATE_FORMAT (n.`date`,'%d.%m.%Y %H.%i') AS date_detail, n.`image`, n.`comments_cnt`, c.`title` ".
+    "AS `news_cat` FROM `news`n JOIN `category`c ON c.`id`= n.`category_id` WHERE  n.`id`= ? LIMIT ?";
 $res = getStmtResult($link, $query, [$id, 1]);
 $arNewsDetail = mysqli_fetch_assoc($res);//массив со всеми значениями
 //pr($arNewsDetail);
 //die();
 //получаем  комментарии
-$resComment = getStmtResult($link, "SELECT * FROM `comments` WHERE `news_id` = ?",[$id]);//запрос
+$resComment = getStmtResult($link, "SELECT * FROM `comments` WHERE `news_id` = ? ",[$id]);//запросAND  `active`= ?
+
 $arComments = mysqli_fetch_all($resComment, MYSQLI_ASSOC);//получаем комментарии текущей новости
+
+$resTags = getStmtResult($link,"SELECT * FROM `tags` WHERE `news_id` = ? ",[$id]);
+$arTags = mysqli_fetch_all($resTags, MYSQLI_ASSOC );//массив со всеми значениями
+
 
 $comments = renderTemplate('comments',[//получаем шаблон комментариев comments.php
                             'arComments' =>$arComments,//передаем массив в шаблон коментария
@@ -21,6 +27,7 @@ $comments = renderTemplate('comments',[//получаем шаблон комм�
 $page_content = renderTemplate("news_detail",[//получаем html шаблон news_detail.php
                                 'arNews'=>$arNewsDetail,//в переменную  вставляем массив с новостью из базы данных
                                     'comments' => $comments,//передаем готовый html код комментариев
+                    'arTags'=>$arTags,//передаем массив с тегами новости
 ]);
 
 $result = renderTemplate('layout',[//ГЛАВНЫЙ ШАБЛОН СТРАНИЦЫ в переменную вставляем функцию шаблон и передаем ей аргумент layout.php и значения

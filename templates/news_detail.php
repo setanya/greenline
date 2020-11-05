@@ -7,13 +7,26 @@
         <p>
             <?=$arNews['detail_text']?>
         </p>
-        <p>Tagged: <a href="#">orci</a>, <a href="#">lectus</a>, <a href="#">varius</a>, <a href="#">turpis</a></p>
-        <p><a href="#"><strong>Comments (<?=$arNews['comments_cnt']?>)</strong></a> <span>&nbsp;&bull;&nbsp;</span> <?=$arNews['date_detail']?><span>&nbsp;&bull;&nbsp;</span> <a href="#"><strong>Edit</strong></a></p>
+        <?if(!empty($arTags)):?>
+        <p>Tagged:
+            <?
+            $cntTags = count($arTags);
+            $c = 1;
+            ?>
+            <?foreach ($arTags as $tag):?>
+            <a href="/?tag="<?=$tag['tag']?>"><?=$tag['tag']?></a><?if($cntTags > $c ):?>,<?endif;?>
+        <?
+        $c++;
+        ?>
+            <?endforeach;?>
+        </p>
+        <?endif;?>
+        <p><a href="#"><strong>Комментариев (<span id = "cc"><?=$arNews['comments_cnt']?></span>)</strong></a> <span>&nbsp;&bull;&nbsp;</span> <?=$arNews['date_detail']?><span>&nbsp;&bull;&nbsp;</span> <a href="#"><strong>Edit</strong></a></p>
     </div>
     <div class="article">
         <h2><span>  </span> Комментарии к новости</h2>
 
-        <?=$comments?><?//вставили шаблон коментариев?>
+        <div id="comments"><?=$comments?><?//вставили шаблон коментариев?></div>
 
     </div>
     <div class="article">
