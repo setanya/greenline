@@ -6,25 +6,19 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/core/init.php';//подключение
 mysqli_begin_transaction($link);
 
 $resC = getStmtResult($link, "INSERT INTO `comments` SET `text`= ? , `author`= ?, `news_id`=? , `date`=NOW()",[
-    $_POST['message'],
-    $_POST['name'],
-    $_POST['news_id'],
-
+                        $_POST['message'],
+                        $_POST['name'],
+                        $_POST['news_id'],
 ]);
 
-$id = mysqli_insert_id($link);//получает  id только что вставленной записи
-
-
-
+$id = mysqli_insert_id($link);//mysqli_insert_id => получает  id только что вставленной записи
 
 //счетчик новостей
 $resN = getStmtResult($link, "SELECT `comments_cnt` FROM `news` WHERE `id`=?", [$_POST['news_id']]);
 $cnt = mysqli_fetch_assoc($resN)['comments_cnt'];
-$cnt++;
+$cnt++;//счетчик увеличиваем на 1
 //обновляем данные
 $resNews = getStmtResult($link, "UPDATE `news` SET `comments_cnt` =? WHERE `id`=?", [$cnt, $_POST['news_id']]);
-
-
 //если в базу пришли данные и запущена трансзакции запомнила  если
 //if($resC == true && $resNews ==true){
 if($id > 0){//если id полученой новости больше 0

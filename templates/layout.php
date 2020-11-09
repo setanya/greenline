@@ -40,7 +40,7 @@
             <span>
             <input name="editbox_search" class="editbox_search" id="editbox_search" maxlength="80" value="Поиск по сайту:" type="text" />
             </span>
-            <input name="button_search" src="images/search_btn.gif" class="button_search" type="image" />
+            <input name="button_search" src="images/search_btn.gif" id ="button_search" type="image" />
           </form>
         </div>
         <div class="gadget">
@@ -72,10 +72,11 @@
         <p>Будь в курсе!<br />
           На сайте представлена подборка самых свежих новостей науки, медицины, современных технологий и многого другого. Вы можете подписаться на нашу рассылку, чтобы всегда быть в курсе.</p>
         <div>
-          <form class="subscribe">
-            <input type="email" name="email" placeholder="Ваш email" />
-            <input type="submit" class="button" value="Подписаться" />
+          <form id="subscribe"  method="post" action="#">
+            <input id ="sub_email" type="email" name="emails" placeholder="Ваш email" />
+            <input id ="sub_but" class="button" type="button" name="email_button" value="Подписаться" />
           </form>
+            <div class="error_email"></div>
         </div>
       </div>
       <div class="col c3">
