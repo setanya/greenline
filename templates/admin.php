@@ -1,40 +1,33 @@
-<?php
-if (isset($_POST['sub']) && $_POST['sub'] != ''){//если переменная с name ="sub" существует
+<?php pr($_SESSION)?>
+<?php if($_SESSION['is_admin'] == '1'):?>
+    <div class="form_admin">
+        <form action="" method="post">
+            <br>
+            Категория новостей
+            <select class="category">
+                <option>Интернет</option>
+                <option>Медицина</option>
+                <option>Наука</option>
+                <option>Технологии</option>
+            </select>
+            <br>
+            Заголовок новости:<br>
+            <input type="text" name="title_news" class="news">
+            <br>
+            Краткий текст новости:<br>
+            <textarea name="litle_text" id="litle_news" cols="60" rows="15"></textarea>
+            <br>
+            Продолжение текста новости:<br>
+            <textarea name="big_text" id="big_news" cols="60" rows="15"></textarea>
+            <br>
+            <br>
+            <input type="submit" value="Сохранить новость">
+            <br>
+            как загрузить фото
 
-	$error = array();//создали переменную с массивом и передастся на стр.
-	if($_POST['login'] =='')//если переменная пустая
-	{//тогда в переменную $error запишется 'Заполните логин'
-		$error['login'] = 'Заполните логин';
-	}
-    //если пришли данные они запишутся в переменную $error  
-	if($_POST['password'] ==''){//если переменная пустая
-		$error['password'] = 'Заполните пароль';
-	}
-	if($_POST['dbl_password'] ==''){//если переменная пустая
-		$error['dbl_password'] = 'Заполните повтор пароля';
-	}
-	if($_POST['password'] !== $_POST['dbl_password']){//если пароль не равен подтверждению
-		$error['dbl_password'] = 'пароль не совпадает';
-	}
-	//КОД для проверки совпадает логин и пароль если совпадает тогда переход на страницу админка ------------------
-	//  isset-если существует                    trim - удаляем пробелы
-	if(isset($_POST['login'], $_POST['password'])){//если пришли данные
-		$logim = trim($_POST['login']);//обработали от пробелов
-		$pass = trim($_POST['password']);//обработали от пробелов
-		$dbl_pass = trim($_POST['dbl_password']);//обработали от пробелов
-		if($logim === 'loginAdmin' && $pass ==='passAdmin' && $pass === $dbl_pass ){
-			header('Location:adminka.php');// перенаправление на нужную страницу	
-		}else{//если не пришли данные
-			echo '<p style="color:red;"> Неверный логин или пароль </p>';//вывести и ничего не делать
-		}
-	}
-}
-
-
-
-
-
-?>
+        </form>
+    </div>
+<?php else:?>
 
 <div class="registr">
     <h2>Войти в панель администратора</h2>
@@ -62,3 +55,4 @@ if (isset($_POST['sub']) && $_POST['sub'] != ''){//если переменная
 		</div>
 	</form>
 </div>
+<?php endif;?>

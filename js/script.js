@@ -35,8 +35,24 @@ $(document).ready(function () {//чтобы читался файл когда �
     });
     $("input, textarea").focus(function() { //очищаем ошибки <div class="error" id="form_error"></div>
             $('#form_error').html('');
+        $(".error_email").html('');
     });
     //функция для получения * email *
+        $("#sent_sub").click(function (){
+            $.ajax({//аякс запрос
+                type: 'post',//методом пост
+                url: '/ajax/email_ajax.php',//в какой папке
+                data : $("form.subscribe").serialize(),//обращаемся к <form id="form">
+                success: function (data){
+                    //console.log(data);
+                    $(".error_email").html(data);
+                    $(".error_email").css('color','red');
+                }
+            });
+        });
+
+
+
 
     //$("#sub_but").click(function(){// при клике на кнопку ПОДПИСАТЬСЯ
 
@@ -63,7 +79,7 @@ $(document).ready(function () {//чтобы читался файл когда �
         //             email_mail.val('');//очистили поле *let email_mail = $('#sub_email');*
         //         }
         //     });
-    });
+    //});
 
 
 

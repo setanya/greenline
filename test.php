@@ -47,8 +47,8 @@
 <!--4,  выполнить подготовленное выражение-->
 <!--5,  обработать результат выполнения -->
 
-//////////////////////////////////////////
-?>
+
+
 <?php //if(!empty($arPage)):?>
 <!---->
 <!--<p class="pages">-->
@@ -73,8 +73,8 @@
 //b  blob      (бинарные данные)
 
     require_once 'core/init.php';
-    $cat = $_GET['category'];// $id получаем данные из адресной строки
-    $title = 'медицина';
+//    $cat = $_GET['category'];// $id получаем данные из адресной строки
+//    $title = 'медицина';
 
 //    $stmr = mysqli_prepare($link, "SELECT * FROM `category` WHERE `title` = ?");//подготавливает запрос возвращает указатель
 //     //mysqli_stmt_bind_param  привязывает переменные к параметрам запроса
@@ -84,8 +84,39 @@
 //    // обработать результат запроса  возвращает результат
 //        $res = mysqli_stmt_get_result($stmr);
 
-$res = getStmtResult($link, "SELECT * FROM `category`");
+//$res = getStmtResult($link, "SELECT * FROM `category`");
+//
+//        while($arRes = mysqli_fetch_assoc($res)){//записываем переменную  построчно массивом
+//            pr($arRes);
+//        };
+//форма для загрузки файлов
+pr($_FILES);
+//    if($_FILES['user_file']['error']== 0){//если ошибок нет
+//        $upload = $_SERVER['DOCUMENT_ROOT'].'/upload/';//путь к папке где будут лежать загруженные файлы
+//        $arrName = explode('.',$_FILES['user_file']['name']);//разбиваем имя файла  по точке чтобы вставить метку времени
+//        $name = $arrName[0].'_'.time().'.'.$arrName[1];//составляем новое имя для файла с меткой времени
+//        //move_uploaded_file($_FILES['user_file']['tmp_name'],$upload.$_FILES['user_file']['name']);
+//        move_uploaded_file($_FILES['user_file']['tmp_name'],$upload.$name);
+//    }
+if(!empty($_FILES['user_file']['error'] )){//если файлы пришли и не пусты
+    foreach ($_FILES['user_file']['error'] as $k =>$val){//перебираем циклом поле эрор
+        if($val == 0){//если значение = нулю
+            $upload = $_SERVER['DOCUMENT_ROOT'].'/upload/';//путь куда положить файлы
+            $arrName = explode('.',$_FILES['user_file']['name'][$k]);
+            $name = $arrName[0].'_'.time().'.'.$arrName[1];
+            move_uploaded_file($_FILES['user_file']['tmp_name'][$k],$upload.$name);
+        }
+    }
+}
 
-        while($arRes = mysqli_fetch_assoc($res)){//записываем переменную  построчно массивом
-            pr($arRes);
-        };
+?>
+<?php//форма для загрузки файлов?>
+
+<form method="post" enctype="multipart/form-data">
+
+    <input type="file" name="user_file[]"/><br>
+    <input type="file" name="user_file[]"/><br>
+    <input type="file" name="user_file[]"/><br>
+    <input type="file" name="user_file[]"/><br>
+    <input type="submit" value="Загрузить"/>
+</form>
