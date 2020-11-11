@@ -38,34 +38,32 @@ $(document).ready(function () {//чтобы читался файл когда �
     });
     //функция для получения * email *
 
-    //$("#sub_but").click(function(){// при клике на кнопку ПОДПИСАТЬСЯ
+    $("#sub_but").click(function(){// при клике на кнопку ПОДПИСАТЬСЯ
 
         //console.log(123);
-        //let email_mail = $('#sub_email');//1)создаем переменную для получения из поля мейл <input id ="sub_email"type="email" name="email" placeholder="Ваш email" />
+        let email_mail = $('#sub_email');//1)создаем переменную для получения из поля мейл <input id ="sub_email"type="email" name="email" placeholder="Ваш email" />
         //console.log(email_mail.val());
         //console.log($("#subscribe");
     //2)создаем аякс запрос
         //console.log( $("#subscribe")) ;
-        //if(email_mail.val() != '' ){
-        //     $.ajax({//аякс запрос
-        //         type: 'post',//методом пост
-        //         url: '/ajax/email_ajax.php',//с какой папки вернуть ответ
-        //         data : $("#subscribe").serialize(),//обращаемся к <form id="subscribe">
-        //         // data :{
-        //         //     email:email_mail.val()
-        //         // },
-        //         success: function (d) {//вернуть функцию с параметрами => data : $(".subscribe").serialize()
-        //             $(".error_email").html('Вы подписаны на новости');
-        //             $(".error_email").css('color','red');
-        //            //  let a = d ;
-        //            //
-        //            //  console.log(a);//выводим данные вернувшиеся из аякса
-        //             email_mail.val('');//очистили поле *let email_mail = $('#sub_email');*
-        //         }
-        //     });
-    });
+        if(email_mail.val() != ''){
+             $.ajax({//аякс запрос
+              type: 'post',//методом пост
+               url: '/ajax/email_ajax.php',//с какой папки вернуть ответ
+                 //  data : $("#subscribe").serialize(),//обращаемся к <form id="subscribe">
+                 data :{email:email_mail.val()},
+
+               success: function (d) {//вернуть функцию с параметрами => data : $(".subscribe").serialize()
+                   $(".error_email").html(d);
+               $(".error_email").css('color','red');
+                    let a = d ;
+
+                     console.log(a);//выводим данные вернувшиеся из аякса
+                    email_mail.val('');//очистили поле *let email_mail = $('#sub_email');*
+                }
+               });
+            };
 
 
-
-
+});
 });
