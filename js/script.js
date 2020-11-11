@@ -33,37 +33,46 @@ $(document).ready(function () {//чтобы читался файл когда �
             $('#form_error').css('color','red');//текст красный
         }
     });
-    $("input, textarea").focus(function() { //очищаем ошибки <div class="error" id="form_error"></div>
+    $("input, textarea").focus(function() { //очищаем ошибки <form  input и textarea
             $('#form_error').html('');
+        $(".error_email").html('');//очищаем форму
     });
     //функция для получения * email *
-
-    $("#sub_but").click(function(){// при клике на кнопку ПОДПИСАТЬСЯ
-
-        //console.log(123);
-        let email_mail = $('#sub_email');//1)создаем переменную для получения из поля мейл <input id ="sub_email"type="email" name="email" placeholder="Ваш email" />
-        //console.log(email_mail.val());
-        //console.log($("#subscribe");
-    //2)создаем аякс запрос
-        //console.log( $("#subscribe")) ;
-        if(email_mail.val() != ''){
-             $.ajax({//аякс запрос
-              type: 'post',//методом пост
-               url: '/ajax/email_ajax.php',//с какой папки вернуть ответ
-                 //  data : $("#subscribe").serialize(),//обращаемся к <form id="subscribe">
-                 data :{email:email_mail.val()},
-
-               success: function (d) {//вернуть функцию с параметрами => data : $(".subscribe").serialize()
-                   $(".error_email").html(d);
-               $(".error_email").css('color','red');
-                    let a = d ;
-
-                     console.log(a);//выводим данные вернувшиеся из аякса
-                    email_mail.val('');//очистили поле *let email_mail = $('#sub_email');*
+        $("#sent_sub").click(function (){// при клике на кнопку ПОДПИСАТЬСЯ
+            //2)создаем аякс запрос
+            $.ajax({
+                type: 'post',//методом пост
+                url: '/ajax/email_ajax.php',//из какой папки
+                data : $("form.subscribe").serialize(),//обращаемся к <form class="subscribe" >
+                success: function (data){
+                    //console.log(data);
+                    $(".error_email").html(data);//выводим ответ
+                    $(".error_email").css('color','red');//красным цветом
                 }
-               });
-            };
+            });
+        });
 
 
-});
+
+
+
+        //if(email_mail.val() != '' ){
+        //     $.ajax({//аякс запрос
+        //         type: 'post',//методом пост
+        //         url: '/ajax/email_ajax.php',//с какой папки вернуть ответ
+        //         data : $("#subscribe").serialize(),//обращаемся к <form id="subscribe">
+        //         // data :{
+        //         //     email:email_mail.val()
+        //         // },
+        //         success: function (d) {//вернуть функцию с параметрами => data : $(".subscribe").serialize()
+        //             $(".error_email").html('Вы подписаны на новости');
+        //             $(".error_email").css('color','red');
+        //            //  let a = d ;
+        //            //
+        //            //  console.log(a);//выводим данные вернувшиеся из аякса
+        //             email_mail.val('');//очистили поле *let email_mail = $('#sub_email');*
+        //         }
+        //     });
+    //});
+
 });
