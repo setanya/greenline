@@ -55,6 +55,7 @@ function getWeekday($a){
  * @param array $param
  * @return false|mysqli_result
  */
+//функция для подготовленного запрса=> getStmtResult($link,"SELECT * FROM `tags` WHERE `news_id` = ? ",[$id]);
 function getStmtResult($link, $query, $param = [])
 {
     $stmt = mysqli_prepare($link, $query);//подготавливает запрос возвращает указатель
