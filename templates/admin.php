@@ -1,14 +1,14 @@
-<?php //pr($_SESSION)?>
-<?php if($_SESSION['is_admin'] = '1'):?>
+<?php pr($_SESSION)?>
+<?php if($_SESSION['admin'] == '5'):?>
    <div class="form_admin">
         <form action="" method="post" enctype="multipart/form-data">
             <br>
             Категория новостей
             <select class="category" name="category">
-                <option>Интернет</option>
-                <option>Медицина</option>
-                <option>Наука</option>
-                <option>Технологии</option>
+                <option value="1">Интернет</option>
+                <option value="2">Медицина</option>
+                <option value="3">Наука</option>
+                <option value="4">Технологии</option>
             </select>
             <br>
             Заголовок новости:<br>

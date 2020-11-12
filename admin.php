@@ -36,7 +36,7 @@ $title = 'Администратор'; // передаем новое значе
                     $error['dbl_password'] = 'Неверный пароль';
                 }
                 if($login === $log && $pass === $pas && $dbl_pass ===  $pas){
-                    $_SESSION['is_admin'] = '1';
+                    $_SESSION['admin'] = '5';
                     //header('Location:adminka.php');// перенаправление на нужную страницу
                 }
             }
@@ -57,21 +57,12 @@ pr($_POST);
     if(isset($_POST['category']) && isset($_POST['title_news']) && isset($_POST['litle_text']) && isset($_POST['big_text'])
         && $_POST['category'] !='' && $_POST['title_news'] !='' && $_POST['litle_text'] !='' && $_POST['big_text'] !=''){
         $categoryNews = $_POST['category'];
-        $categoryNewsId= '';
         $titleNews = $_POST['title_news'];
         $litleNews = $_POST['litle_text'];
         $bigNews = $_POST['big_text'];
 
-        if($categoryNews = "Технологии"){
-            $categoryNewsId = 1;
-        }if($categoryNews = 'Наука'){
-            $categoryNewsId = 2;
-        }if($categoryNews = 'Медицина'){
-            $categoryNewsId = 3;
-        }if($categoryNews = 'Интернет'){
-            $categoryNewsId = 4;
-        }
-            getStmtResult($link, "INSERT INTO `news` SET `title`= ?, `preview_text`= ?, `detail_text`=?, `category_id`= ?, `date`= NOW()", [$titleNews, $litleNews, $bigNews, $categoryNewsId ]);
+
+            getStmtResult($link, "INSERT INTO `news` SET `title`= ?, `preview_text`= ?, `detail_text`=?, `category_id`= ?, `date`= NOW()", [$titleNews, $litleNews, $bigNews, $categoryNews ]);
            echo "Новость добавлена";
 
 }

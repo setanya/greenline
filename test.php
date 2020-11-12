@@ -120,3 +120,29 @@ if(!empty($_FILES['user_file']['error'] )){//если файлы пришли и
     <input type="file" name="user_file[]"/><br>
     <input type="submit" value="Загрузить"/>
 </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
