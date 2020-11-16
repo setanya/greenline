@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] .'/core/init.php';//подключение всех нужных  файлов
 
-$title = 'Администратор'; // передаем новое значение вк
+$title = 'Администратор'; // передаем новое значение 
 
     if (isset($_POST['sub']) && $_POST['sub'] != ''){//если переменная с name ="sub" существует
 
@@ -21,9 +21,9 @@ $title = 'Администратор'; // передаем новое значе
         //КОД для проверки совпадает логин и пароль если совпадает тогда переход на страницу админка ------------------
         //  isset-если существует                    trim - удаляем пробелы
             if(isset($_POST['login'], $_POST['password']) && $_POST['login']!= '' && $_POST['password'] != ''){//если пришли данные
-                $login = trim($_POST['login']);//обработали от пробелов
-                $pass = trim($_POST['password']);//обработали от пробелов
-                $dbl_pass = trim($_POST['dbl_password']);//обработали от пробелов
+                $login = htmlspecialchars(trim($_POST['login'])) ;//обработали от пробелов
+                $pass = htmlspecialchars( trim($_POST['password']));//обработали от пробелов
+                $dbl_pass = htmlspecialchars( trim($_POST['dbl_password']));//обработали от пробелов
                 $log = 'loginAdmin';
                 $pas = 'passAdmin';
                 if($login !== $log){//если пришедший логин не равен установленному
@@ -37,13 +37,12 @@ $title = 'Администратор'; // передаем новое значе
                 }
                 if($login === $log && $pass === $pas && $dbl_pass ===  $pas){
                     $_SESSION['admin'] = '5';
-                    //header('Location:adminka.php');// перенаправление на нужную страницу
                 }
             }
     }
-pr($error);//передали вывод ошибок
+//pr($error);//передали вывод ошибок
 //проверка для формы отправки файла
-pr($_FILES);
+//pr($_FILES);
    if($_FILES['user_file']['error']== 0){//если ошибок нет
         $upload = $_SERVER['DOCUMENT_ROOT'].'/upload/';//путь к папке где будут лежать загруженные файлы
         $arrName = explode('.',$_FILES['user_file']['name']);//разбиваем имя файла  по точке чтобы вставить метку времени
@@ -53,7 +52,7 @@ pr($_FILES);
         //Перемещает загруженный файл в новое место(временное имя , путь к папке где будут лежать загруженные файлы, имя для файла с меткой времени
     }
 //запись новостей в базу данных и вывод на страницу
-pr($_POST);
+//pr($_POST);
     if(isset($_POST['category']) && isset($_POST['title_news']) && isset($_POST['litle_text']) && isset($_POST['big_text'])
         && $_POST['category'] !='' && $_POST['title_news'] !='' && $_POST['litle_text'] !='' && $_POST['big_text'] !=''){
         $categoryNews = $_POST['category'];
@@ -67,15 +66,10 @@ pr($_POST);
 
 }
 
-
-
 $page_content = renderTemplate('admin',[//admin.php
                                         'error'=>$error,//в переменную передали вывод ошибок под формой
                                       ]);
 
- // function renderTemplate($name, $data=['аргумент'=>$переменной])('аргумент' становится на странице $аргумент)['title'=>'123'] $title='123'
-///$name = $_SERVER['DOCUMENT_ROOT'] . '/templates/'.$name. '.php';/=>support.php /создаем полный путь из параметров $name
-//  $data=['title'=>'123']становится на странице $title='123'
 $rezult = renderTemplate('admin_layout', [//подключаем файл admin_layout.php
                             'content' => $page_content,//admin.php
                             'title' => $title,//название страницы

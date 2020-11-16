@@ -87,4 +87,3 @@ function getStmtResult($link, $query, $param = [])
 
 
 
-?>

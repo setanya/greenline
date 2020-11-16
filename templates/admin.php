@@ -1,4 +1,4 @@
-<?php pr($_SESSION)?>
+<?php //pr($_SESSION)?>
 <?php if($_SESSION['admin'] == '5'):?>
    <div class="form_admin">
         <form action="" method="post" enctype="multipart/form-data">

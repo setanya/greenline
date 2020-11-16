@@ -53,7 +53,8 @@
     }
     $res = getStmtResult($link, $query, $param);
     $arNews = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    
+
+
     $arPage = range(1, $totalStr);//массив от 1 до КОЛИЧЕСТВО СТРАНИЦ ($totalStr)[1,2,3]
     //получить  предыдущие стр
     $prevPage = '';
